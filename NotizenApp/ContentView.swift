@@ -7,15 +7,32 @@
 
 import SwiftUI
 
+
 struct ContentView: View {
+
+    @State var notizen: [String] = ["Zimmer Aufräumen", "Einkaufen gehen"]
+    @State var notiz = ""
     var body: some View {
-        VStack {
-            Image(systemName: "globe")
-                .imageScale(.large)
-                .foregroundStyle(.tint)
-            Text("Hello, world!")
+        NavigationView{
+            VStack{
+                List{
+                    ForEach(notizen, id: \.self){ notiz in
+                        Text(notiz)
+                    }.onDelete(perform: { indexSet in
+                        notizen.remove(atOffsets: indexSet)
+                    })
+                }
+                .navigationTitle("Notizen")
+                HStack {
+                    TextField("Neue Notiz", text: $notiz)
+                    
+                    Button("Hinzufügen"){
+                        notizen.append(notiz)
+                        notiz = ""
+                    }
+                }.padding(.horizontal)
+            }
         }
-        .padding()
     }
 }
 
